@@ -2,6 +2,7 @@ const databaseName = 'codex'
 const connectionString = `postgres://${process.env.USER}@localhost:5432/${databaseName}`
 const pgp = require('pg-promise')();
 const db = pgp(connectionString);
+const bcrypt = require('bcrypt-nodejs');
 
 const createUser = ( attributes ) => {
   const sql = `
@@ -12,7 +13,13 @@ const createUser = ( attributes ) => {
     RETURNING
       *
   `
-  return db.one(sql, [attributes.name, attributes.email, attributes.password])
+  const encrypted_password = bcrypt.hashSync(attributes.password)
+  const variables = [
+    attributes.name,
+    attributes.email,
+    encrypted_password
+  ]
+  return db.one(sql, variables)
 }
 
 const getUserById = (user) => {
@@ -20,19 +27,19 @@ const getUserById = (user) => {
     SELECT *
     FROM users 
     WHERE id = $1
-    RETURNING *    
+    RETURNING *   
   `
   return db.one(sql, [user])
 }
 
-const authenticateUser = (email) => {
+const getUserByEmail = (email) => {
   const sql = `
-    SELECT id, encrypted_password
+    SELECT *
     FROM users
     WHERE email=$1
     LIMIT 1
   `
-  return db.one(sql, [email])
+  return db.oneOrNone(sql, [email])
 }
 
 
@@ -40,5 +47,5 @@ const authenticateUser = (email) => {
 module.exports = {
   createUser: createUser,
   getUserById: getUserById,
-  authenticateUser: authenticateUser
+  getUserByEmail: getUserByEmail
 }

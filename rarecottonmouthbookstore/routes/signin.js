@@ -11,7 +11,7 @@ router.post('/', (request, response) => {
   const email = request.body.email
   const password = request.body.password
 
-  database.authenticateUser(email, password)
+  database.getUserByEmail(email, password)
     .then(user => {
       if(user){
         request.session.userId = user.id

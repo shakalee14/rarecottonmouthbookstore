@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
 
+
 const database = require('./database');
 const pgp = database.pgp;
 
@@ -32,7 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieSession({
   name: 'session',
-  keys: ['key1', 'key2']
+  keys: ['9B7^T(cL.6335P1D<o2`;Y"S1FWXTY', 'MG62S3V7t5yioNo8o9r6T8SSCsde81q3']
 }))
 
 app.use((request, response, next) => {
