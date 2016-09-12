@@ -2,5 +2,9 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  if signedIn
+    p Welcome Back!
+  else
+    p Welcome to #{title}
+  pre= JSON.stringify(session, null, 4)
 

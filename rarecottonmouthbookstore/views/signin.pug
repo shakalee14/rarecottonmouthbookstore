@@ -1,3 +1,10 @@
 extends layout 
 block content
-  h1 Sign In
+  
+  if error
+    h2.error-message= error
+  h1 Sign In Page
+    form(method="post" action="/signin")
+      input(type="text" name="email" placeholder="Email") 
+      input(type="password" name="password" placeholder="Password")
+      input(type="submit" value="signin")
