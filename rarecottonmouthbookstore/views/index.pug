@@ -2,9 +2,17 @@ extends layout
 
 block content
   h1= title
-  if signedIn
-    p Welcome Back!
-  else
-    p Welcome to #{title}
-  pre= JSON.stringify(session, null, 4)
+    if signedIn
+      p Welcome Back!
+    else
+      p Welcome to #{title}
+    pre= JSON.stringify(session, null, 4)
+  h2 Book Listing
+  
+  ul
+    for book in books
+      li
+        img.list-img(src=book.imgurl)
+        a(href="/books/"+book.id)=book.title
+
 

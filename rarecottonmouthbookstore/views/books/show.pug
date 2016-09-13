@@ -1,0 +1,19 @@
+extends ../layout 
+block content
+
+  if !book.id
+    h1 Book Not Found
+  else  
+    h1= book.title
+    img(src=book.imgurl)
+
+    for author in book.authors
+      h4= author.name
+
+    for genre in book.genres
+      h4= genre.genre
+
+    if signedIn 
+      form(method="get" action="/books/delete/"+book.id)
+        input(type="submit" value="delete book") 
+  
