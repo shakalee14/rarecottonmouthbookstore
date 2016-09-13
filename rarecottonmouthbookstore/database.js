@@ -118,36 +118,59 @@ const associateGenreWithBook = (bookId, genreId) => {
   return db.none(sql, [bookId, genreId])
 }
 
-const getAllBooks =  () => {
-  return db.many('SELECT * FROM books')
+const getAllBooks = (page=1) => {
+  const offset = (page - 1) * 10;
+  return db.many('SELECT * FROM books LIMIT 10 OFFSET $1', [offset])
+    .then(getAuthorsandGenresForBooks)
 }
 
 const getAllGenres = () => {
   return db.many('SELECT * FROM genres')
 }
 
-const getGenresForBookId = (bookId) => {
+const getGenresForBookIds = bookIds => {
   const sql = `
-    SELECT genres.* 
+    SELECT genres.*, book_genres.book_id
     FROM genres 
     JOIN book_genres
-    ON genres.id = book_genres.genre_id
-    WHERE book_genres.book_id = $1
+    ON book_genres.genre_id = genres.id
+    WHERE book_genres.book_id IN ($1:csv)
   `
 
-  return db.manyOrNone(sql, [bookId])
+  return db.any(sql, [bookIds])
 }
 
-const getAuthorsForBookId = (bookId) => {
+const getAuthorsForBookIds = (bookIds) => {
   const sql = `
-    SELECT authors.* 
+    SELECT authors.*, book_authors.book_id
     FROM authors 
     JOIN book_authors
-    ON authors.id = book_authors.author_id
-    WHERE book_authors.book_id = $1
+    ON book_authors.author_id = authors.id
+    WHERE book_authors.book_id IN ($1:csv)
   `
 
-  return db.manyOrNone(sql, [bookId])
+  return db.any(sql, [bookIds])
+}
+
+const getAuthorsandGenresForBooks = (books) => {
+  console.log('booksf?1', books)
+  const bookIds = books.map(book => book.id)
+  console.log('book?', bookIds)
+  return Promise.all([
+    getAuthorsForBookIds(bookIds),
+    getGenresForBookIds(bookIds)
+  ])
+    .then( results => {
+      const authors = results[0]
+      console.log('authors', authors)
+      const genres = results[1]
+      console.log('genres', genres)
+      books.forEach(book => {
+        book.authors = authors.filter(author => author.book_id === book.id)
+        book.genres = genres.filter(genre => genre.book_id === book.id)
+      })
+      return books
+   })
 }
 
 const getBookDetailsById = (bookId) => {
@@ -164,8 +187,8 @@ const getBookDetailsById = (bookId) => {
 
   return Promise.all([
     db.oneOrNone(sql, [bookId]),
-    getGenresForBookId(bookId),
-    getAuthorsForBookId(bookId)
+    getGenresForBookIds(bookId),
+    getAuthorsForBookIds(bookId)
   ])
     .then(details => {
       const book = details[0]
@@ -196,5 +219,6 @@ module.exports = {
   createGenre: createGenre,
   getBookDetailsById: getBookDetailsById,
   deleteBook: deleteBook,
-  getAllBooks: getAllBooks
+  getAllBooks: getAllBooks,
+  getAuthorsandGenresForBooks: getAuthorsandGenresForBooks
 }

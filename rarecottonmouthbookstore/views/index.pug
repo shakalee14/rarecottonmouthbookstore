@@ -9,10 +9,31 @@ block content
     pre= JSON.stringify(session, null, 4)
   h2 Book Listing
   
-  ul
-    for book in books
-      li
-        img.list-img(src=book.imgurl)
-        a(href="/books/"+book.id)=book.title
+  table
+    thead
+      tr image
+      tr title
+      tr author
+      tr genre
+    tbody
+      for book in books
+        tr
+          td
+            img.list-img(src=book.imgurl)
+          td
+            a(href="/books/"+book.id)=book.title
+          td
+            for author in book.authors
+              p=author.name
+          td
+            for genre in book.genres
+              p= genre.genre
+      //- li
+      //-   img.list-img(src=book.imgurl)
+      //-   a(href="/books/"+book.id)=book.title
+      //-   p= author.name
 
-
+  if page > 1 
+    a(href="/?page="+(page -1)) Previous Page
+  
+  a(href="/?page="+(page +1)) Next Page
