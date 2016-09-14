@@ -130,7 +130,7 @@ const getAllBooks = (page=1) => {
 }
 
 const getAllGenres = () => {
-  return db.many('SELECT * FROM genres')
+  return db.any('SELECT * FROM genres')
 }
 
 const getGenresForBookIds = bookIds => {
@@ -210,7 +210,7 @@ const deleteBook = (bookId) => {
   return db.none(sql, [bookId])
 }
 
-const searchBooksByTitleAuthorOrGenre = (options) => {
+const searchBooksByTitleAuthorOrGenre = (options, page=1) => {
   let variables = []
   let sql = `
     SELECT DISTINCT (books.*)
@@ -248,6 +248,11 @@ const searchBooksByTitleAuthorOrGenre = (options) => {
   if (whereConditions.length > 0) {
     sql += ' WHERE '+whereConditions.join(' AND ')
   }
+  const offset = (page - 1) * 10;
+  variables.push(offset)
+  sql += `
+    LIMIT 10 OFFSET $${variables.length}
+  `
   console.log('---->', sql, variables)
   return db.any(sql, variables).then(getAuthorsandGenresForBooks)
 }

@@ -9,6 +9,15 @@ block content
     pre= JSON.stringify(session, null, 4)
   h2 Book Listing
   
+
+  if page > 1 
+    a(href="/?page="+(page -1)) Previous Page
+  if books.length >= 10
+    a(href="/?page="+(page +1)) Next Page
+
+  br
+
+
   table
     thead
       tr image

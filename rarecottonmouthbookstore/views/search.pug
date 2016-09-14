@@ -28,3 +28,8 @@ block content
             = book.authors.map(author => author.name).join(', ')
           td
             = book.genres.map(genre => genre.genre).join(', ')
+
+    if page > 1 
+      a(href="/search/?page="+(page -1)) Previous Page
+    if books.length >= 10
+      a(href="/search/?page="+(page +1)) Next Page
