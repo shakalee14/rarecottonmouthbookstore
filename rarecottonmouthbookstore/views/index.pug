@@ -35,5 +35,5 @@ block content
 
   if page > 1 
     a(href="/?page="+(page -1)) Previous Page
-  
-  a(href="/?page="+(page +1)) Next Page
+  if books.length >= 10
+    a(href="/?page="+(page +1)) Next Page
