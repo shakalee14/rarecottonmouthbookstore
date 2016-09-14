@@ -153,18 +153,15 @@ const getAuthorsForBookIds = (bookIds) => {
 }
 
 const getAuthorsandGenresForBooks = (books) => {
-  console.log('booksf?1', books)
   const bookIds = books.map(book => book.id)
-  console.log('book?', bookIds)
+  if (bookIds.length === 0) return Promise.resolve(books)
   return Promise.all([
     getAuthorsForBookIds(bookIds),
     getGenresForBookIds(bookIds)
   ])
     .then( results => {
       const authors = results[0]
-      console.log('authors', authors)
       const genres = results[1]
-      console.log('genres', genres)
       books.forEach(book => {
         book.authors = authors.filter(author => author.book_id === book.id)
         book.genres = genres.filter(genre => genre.book_id === book.id)
@@ -208,6 +205,48 @@ const deleteBook = (bookId) => {
   return db.none(sql, [bookId])
 }
 
+const searchBooksByTitleAuthorOrGenre = (options) => {
+  let variables = []
+  let sql = `
+    SELECT DISTINCT (books.*)
+    FROM books
+  `
+  let whereConditions = []
+  if (options.genres.length > 0 ) {
+    sql += `
+      LEFT JOIN book_genres
+      ON book_genres.book_id = books.id
+    `
+    variables.push(options.genres)
+    whereConditions.push(`
+      book_genres.genre_id IN ($${variables.length}:csv)
+    `)
+  }
+  if (options.search_query) {
+    sql += `
+      LEFT JOIN book_authors
+      ON book_authors.book_id = books.id
+      LEFT JOIN authors
+      ON authors.id=book_authors.author_id
+    `
+    variables.push(
+      `%${options.search_query.toLowerCase().replace(/ +/, '%')}%`
+    )
+    whereConditions.push(`
+      (
+        LOWER(books.title) LIKE $${variables.length}
+      OR 
+        LOWER(authors.name) LIKE $${variables.length}
+      )
+    `)
+  }
+  if (whereConditions.length > 0) {
+    sql += ' WHERE '+whereConditions.join(' AND ')
+  }
+  console.log('---->', sql, variables)
+  return db.any(sql, variables).then(getAuthorsandGenresForBooks)
+}
+
 
 module.exports = {
   getAllGenres: getAllGenres,
@@ -220,5 +259,6 @@ module.exports = {
   getBookDetailsById: getBookDetailsById,
   deleteBook: deleteBook,
   getAllBooks: getAllBooks,
-  getAuthorsandGenresForBooks: getAuthorsandGenresForBooks
+  getAuthorsandGenresForBooks: getAuthorsandGenresForBooks,
+  searchBooksByTitleAuthorOrGenre: searchBooksByTitleAuthorOrGenre
 }

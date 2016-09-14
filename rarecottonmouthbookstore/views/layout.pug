@@ -10,6 +10,12 @@ html
           a(href="/books/new") Add Book
         li 
           a(href="/") Home
+        li
+          form(method="get" action="/search")
+            label Search Books: 
+            input( type="text" placeholder="search..." name="search_query")
+            input(type="submit" value="Search")
+
         if signedIn 
           li 
             a(href="/signout") Sign Out

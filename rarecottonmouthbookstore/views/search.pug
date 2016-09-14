@@ -1,3 +1,30 @@
 extends layout 
 block content
-  h1 Search
+  h1 Search Results
+
+  form(method="get" action="/search")
+    label Search Books: 
+      input(type="text" placeholder="search..." name="search_query" value=searchOptions.search_query)
+      input(type="submit" value="Search")
+    select(name="genres" multiple)
+      for genre in genres
+        - selected = searchOptions.genres.includes(genre.id.toString())
+        option(value=genre.id selected=selected)= genre.genre
+  table
+    thead
+      tr
+        th 
+        th title
+        th authors
+        th genres
+    tbody
+      for book in books
+        tr
+          td
+            img.list-img(src=(book.imgurl || 'https://d30y9cdsu7xlg0.cloudfront.net/png/5020-200.png'))
+          td
+            a(href="/books/"+book.id)=book.title
+          td
+            = book.authors.map(author => author.name).join(', ')
+          td
+            = book.genres.map(genre => genre.genre).join(', ')
