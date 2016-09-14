@@ -28,10 +28,6 @@ block content
           td
             for genre in book.genres
               p= genre.genre
-      //- li
-      //-   img.list-img(src=book.imgurl)
-      //-   a(href="/books/"+book.id)=book.title
-      //-   p= author.name
 
   if page > 1 
     a(href="/?page="+(page -1)) Previous Page
