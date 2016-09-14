@@ -7,11 +7,15 @@ block content
     h1= book.title
     img(src=book.imgurl)
 
-    for author in book.authors
-      h4= author.name
+    h4 Authors
+      ol
+        for author in book.authors
+          li= author.name
 
-    for genre in book.genres
-      h4= genre.genre
+    h4 Genres
+      ol
+        for genre in book.genres
+          li= genre.genre
 
     if signedIn 
       form(method="get" action="/books/delete/"+book.id)

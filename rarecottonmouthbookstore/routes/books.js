@@ -46,6 +46,8 @@ router.post('/', (request, response, next) => {
   if (!Array.isArray(bookAttributes.genres)){
     bookAttributes.genres = 'genres' in bookAttributes ? [bookAttributes.genres] : []
   }
+  
+  bookAttributes.authors = bookAttributes.authors.filter(author => author !== '')
 
   database.createBook(bookAttributes)
     .then(book => {
