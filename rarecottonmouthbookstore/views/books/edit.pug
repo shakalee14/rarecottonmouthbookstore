@@ -1,0 +1,20 @@
+extends ../layout 
+block content
+  h1 Edit Book
+  if signedIn
+    form(method="post" action=`/books/${book.id}`)
+      input(type="text" name="title" value=`${book.title}`)
+      for author in authors
+        input(type="text" name="authors" value=`${author.name}`)
+      input(type="text" name="authors" placeholder='Author')
+      input(type="text" name="authors" placeholder='Author')
+      input(type="text" name="authors" placeholder='Author')
+      select(name="genres" multiple)
+        for genre in genres
+          option(value=genre.id)= genre.genre
+      input(type="text" name="imgurl" value=`${book.imgurl}`)  
+      input(type="submit" value="Update Book")
+  else
+    h3 Please Log In or Sign Up to add a book
+      a(href="/signin") Sign In
+      a(href="/signup") Sign Up

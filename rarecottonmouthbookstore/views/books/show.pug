@@ -10,7 +10,7 @@ block content
     h4 Authors
       ol
         for author in book.authors
-          li= author.name
+          li.authors= author.name
 
     h4 Genres
       ol
@@ -19,5 +19,8 @@ block content
 
     if signedIn 
       form(method="get" action="/books/delete/"+book.id)
-        input(type="submit" value="delete book") 
+        input(type="submit" value="Delete Book")
+      form(method="get" action="/books/edit/"+book.id)
+        input(type="submit" value="Edit Book") 
+   
   

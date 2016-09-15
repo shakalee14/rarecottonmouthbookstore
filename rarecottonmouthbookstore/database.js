@@ -104,7 +104,7 @@ const associateAuthorsWithBook = (book, authors) => {
       VALUES
         ($1, $2)
     `
-    return db.none(sql, [book.id, author.id])
+    return db.any(sql, [book.id, author.id])
   })
   return Promise.all(queries)
 }
@@ -118,7 +118,7 @@ const associateGenresWithBook = (book, genres) => {
       VALUES
         ($1, $2)
     `
-    return db.none(sql, [book.id, genreId])
+    return db.any(sql, [book.id, genreId])
   })
   return Promise.all(queries)
 }
@@ -257,6 +257,117 @@ const searchBooksByTitleAuthorOrGenre = (options, page=1) => {
   return db.any(sql, variables).then(getAuthorsandGenresForBooks)
 }
 
+// const replaceBookAuthorsById = (bookId, authorIds) => {
+//   db.none(`DELETE FROM book_authors WHERE book_id=$1`, [bookId])
+//     .then(()=> {
+//       console.log('authorIds', authorIds)
+//       return associateAuthorsWithBook(bookId, authorIds)
+//     })
+// }
+
+const replaceBookAuthorsById = (bookId, authorIds) => {
+  db.none(`DELETE FROM book_authors WHERE book_id=$1`, [bookId])
+    .then(()=> {
+      const queries = authorIds.map(authorId => {
+        const sql = `
+          INSERT INTO 
+            book_authors(book_id, author_id)
+          VALUES
+            ($1, $2)
+        `
+        return db.any(sql, [bookId, authorId])
+      })
+      return Promise.all(queries)
+    })
+}
+
+// const replaceBookGenresById = (bookId, genreIds)  => {
+//   db.none(`DELETE FROM book_genres WHERE book_id=$1`, [bookId])
+//     .then(()=> {
+//       console.log('genreIds', genreIds)
+//       return associateGenresWithBook(bookId, genreIds)
+//     })
+// }
+
+const replaceBookGenresById = (bookId, genreIds)  => {
+  db.none(`DELETE FROM book_genres WHERE book_id=$1`, [bookId])
+    .then(()=> {
+      const queries = genreIds.map(genreId => {
+        const sql = `
+          INSERT INTO 
+            book_genres(book_id, genre_id)
+          VALUES
+            ($1, $2)
+        `
+        return db.any(sql, [bookId, genreId])
+      })
+      return Promise.all(queries)
+    })
+} 
+
+const associateAuthorsWithBookTwo = (bookId, authors) => {
+  db.none(`DELETE FROM book_authors WHERE book_id=$1`, [bookId])
+    .then(() => {
+      const queries = authors.map(author => {
+        const sql = `
+          INSERT INTO 
+            book_authors(book_id, author_id)
+          VALUES
+            ($1, $2)
+        `
+        return db.any(sql, [bookId, author.id])
+      })
+      return Promise.all(queries)
+    })  
+}
+
+
+const associateGenresWithBookTwo = (bookId, genres) => {
+  db.none(`DELETE FROM book_genres WHERE book_id=$1`, [bookId])
+    .then(() => {
+      const queries = genres.map(genreId => {
+        const sql = `
+          INSERT INTO 
+            book_genres(book_id, genre_id)
+          VALUES
+            ($1, $2)
+        `
+        return db.any(sql, [bookId, genreId])
+      })
+      return Promise.all(queries)
+    })
+}
+
+
+
+const updateBookById = (bookId, attributes) => {
+  const sql = `
+    UPDATE books
+    SET title = $1, imgurl = $2
+    WHERE id = $3
+  `
+  console.log('WHERE---->', sql, [attributes.title, attributes.imgurl, bookId]) 
+  const updateBookQuery = db.none(sql, [attributes.title, attributes.imgurl, bookId])
+  console.log('genres:', attributes.genres)
+  console.log('authors', attributes.authors)
+
+  return Promise.all([
+      updateBookQuery,
+      createAuthors(attributes.authors)
+    ]).then( results => {
+      const book = results[0]
+      const authors = results[1]
+      const queries = [
+        associateGenresWithBookTwo(bookId, attributes.genres),
+        associateAuthorsWithBookTwo(bookId, authors)
+      ]
+    console.log('authorsS', authors)
+    console.log('QUERIES', queries)
+    return Promise.all(queries).then(() => book)
+  })
+}
+
+
 
 module.exports = {
   getAllGenres: getAllGenres,
@@ -270,5 +381,6 @@ module.exports = {
   deleteBook: deleteBook,
   getAllBooks: getAllBooks,
   getAuthorsandGenresForBooks: getAuthorsandGenresForBooks,
-  searchBooksByTitleAuthorOrGenre: searchBooksByTitleAuthorOrGenre
+  searchBooksByTitleAuthorOrGenre: searchBooksByTitleAuthorOrGenre,
+  updateBookById: updateBookById
 }

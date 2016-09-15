@@ -18,6 +18,27 @@ router.get('/new', (request, response, next) => {
     })
 })
 
+router.get('/edit/:id', (request, response, next) => {
+  const bookId = (request.params.id)
+  Promise.all([
+    database.getAllGenres(),
+    database.getBookDetailsById(bookId)
+  ])
+    .then( results => {
+      const genres = results[0]
+      const book = results[1]
+      const authors = book.authors
+      response.render('books/edit', {
+        genres: genres,
+        book: book,
+        authors: authors
+      })
+    })
+    .catch(error => {
+      response.render('error', {error: error})
+    })
+})
+
 router.get('/:bookId', (request, response, next) => {
   database.getBookDetailsById(request.params.bookId)
     .then(book => {
@@ -38,9 +59,6 @@ router.get('/:bookId', (request, response, next) => {
     })
 })
 
-
-
-
 router.post('/', (request, response, next) => {
   const bookAttributes = request.body
   if (!Array.isArray(bookAttributes.genres)){
@@ -57,6 +75,27 @@ router.post('/', (request, response, next) => {
       response.render('error', {error: error})
     })
 
+})
+
+// router.post('/:id', (request, response, next) => {
+//   const book = Object.assign({id: request.params.id}, request.body)
+//   console.log(book)
+//   database.updateBookById(book)
+//     .then(id => response.redirect(`/books/${book.id}`))
+//     .catch(error => {
+//       response.render('error', {error: error})
+//     })
+// })
+
+router.post('/:id', (request, response, next) => {
+  const bookId = Object.assign(parseInt(request.params.id))
+  console.log("request", request.body)
+  console.log("bookiDrOUTE", bookId)
+  database.updateBookById(bookId, request.body)
+    .then(id => response.redirect(`/books/${bookId}`))
+    .catch(error => {
+      response.render('error', {error: error})
+    })
 })
 
 router.get('/delete/:id', (request, response, next) => {
