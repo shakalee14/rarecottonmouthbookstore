@@ -3,25 +3,26 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato")
   body
-    nav
+    nav.navbar
       ul
-        li
-          a(href="/books/new") Add Book
-        li 
-          a(href="/") Home
-        li
-          form(method="get" action="/search")
-            label Search Books: 
-            input( type="text" placeholder="search..." name="search_query")
-            input(type="submit" value="Search")
+        li.navbar-item
+          a.navbar-link(href="/books/new") Add Book
+        li.navbar-item 
+          a.navbar-link(href="/") Home
 
         if signedIn 
-          li 
-            a(href="/signout") Sign Out
+          li.navbar-item 
+            a.navbar-link(href="/signout") Sign Out
         else
-          li 
-            a(href="/signin") Sign In
-          li
-            a(href="/signup") Sign Up
+          li.navbar-item 
+            a.navbar-link(href="/signin") Sign In
+          li.navbar-item 
+            a.navbar-link(href="/signup") Sign Up     
+        li.navbar-search
+          form(method="get" action="/search")
+            label Search Books: 
+            input.search( type="text" placeholder="search..." name="search_query")
+            input.button(type="submit" value="Search")
     block content

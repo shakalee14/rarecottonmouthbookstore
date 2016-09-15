@@ -1,43 +1,44 @@
 extends layout
 
 block content
-  h1= title
-    if signedIn
-      p Welcome Back!
-    else
-      p Welcome to #{title}
-  h2 Book Listing
-  
+  .container
+    h1= title
+      if signedIn
+        p Welcome Back #{user.name}!
+      else
+        p Welcome to #{title}
+    h2 Book Listing
+    
 
-  if page > 1 
-    a(href="/?page="+(page -1)) Previous Page
-  if books.length >= 10
-    a(href="/?page="+(page +1)) Next Page
+    if page > 1 
+      a(href="/?page="+(page -1)) Previous Page
+    if books.length >= 10
+      a(href="/?page="+(page +1)) Next Page
 
-  br
+    br
 
 
-  table
-    thead
-      th image
-      th title
-      th author
-      th genre
-    tbody
-      for book in books
-        tr
-          td
-            img.list-img(src=book.imgurl)
-          td
-            a(href="/books/"+book.id)=book.title
-          td
-            for author in book.authors
-              p=author.name
-          td
-            for genre in book.genres
-              p= genre.genre
+    table
+      thead
+        th 
+        th title
+        th author
+        th genre
+      tbody
+        for book in books
+          tr
+            td
+              img.list-img(src=book.imgurl)
+            td
+              a(href="/books/"+book.id)=book.title
+            td
+              for author in book.authors
+                p=author.name
+            td
+              for genre in book.genres
+                p= genre.genre
 
-  if page > 1 
-    a(href="/?page="+(page -1)) Previous Page
-  if books.length >= 10
-    a(href="/?page="+(page +1)) Next Page
+    if page > 1 
+      a(href="/?page="+(page -1)) Previous Page
+    if books.length >= 10
+      a(href="/?page="+(page +1)) Next Page

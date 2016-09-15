@@ -11,6 +11,7 @@ router.get('/', (request, response, next) => {
     searchOptions.genres = []
   if (!Array.isArray(searchOptions.genres))
     searchOptions.genres = [searchOptions.genres]
+  console.log('searchOptions', searchOptions)
   Promise.all([
     database.getAllGenres(),
     database.searchBooksByTitleAuthorOrGenre(searchOptions, page)

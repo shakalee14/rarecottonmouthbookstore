@@ -26,8 +26,7 @@ const getUserById = (user) => {
   const sql = `
     SELECT *
     FROM users 
-    WHERE id = $1
-    RETURNING *   
+    WHERE id = $1 
   `
   return db.one(sql, [user])
 }
