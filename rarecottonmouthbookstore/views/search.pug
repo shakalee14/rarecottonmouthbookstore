@@ -13,7 +13,7 @@ block content
           option(value=genre.id selected=selected)= genre.genre
     if page > 1 
       a.previous-link(href="/search?search_query="+searchOptions.search_query+"&page="+(page -1)) Previous Page
-    if books.length >= 10
+    if books.length >= 20
       a.next-link(href="/search/?search_query="+searchOptions.search_query+"&page="+(page +1)) Next Page
 
     for book in books
@@ -38,5 +38,5 @@ block content
 
     if page > 1 
       a.previous-link(href="/search?search_query="+searchOptions.search_query+"&page="+(page -1)) Previous Page
-    if books.length >= 10
+    if books.length >= 20
       a.next-link(href="/search/?search_query="+searchOptions.search_query+"&page="+(page +1)) Next Page

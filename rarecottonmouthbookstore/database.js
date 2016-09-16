@@ -247,10 +247,10 @@ const searchBooksByTitleAuthorOrGenre = (options, page=1) => {
   if (whereConditions.length > 0) {
     sql += ' WHERE '+whereConditions.join(' AND ')
   }
-  const offset = (page - 1) * 10;
+  const offset = (page - 1) * 20;
   variables.push(offset)
   sql += `
-    LIMIT 10 OFFSET $${variables.length}
+    LIMIT 20 OFFSET $${variables.length}
   `
   console.log('---->', sql, variables)
   return db.any(sql, variables).then(getAuthorsandGenresForBooks)
