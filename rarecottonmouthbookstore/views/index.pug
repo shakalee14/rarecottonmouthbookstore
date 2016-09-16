@@ -4,41 +4,45 @@ block content
   .container
     h1= title
       if signedIn
-        p Welcome Back #{user.name}!
+        p.username Welcome Back #{user.name}!
       else
         p Welcome to #{title}
-    h2 Book Listing
+    div.centered-line
+    h2.listing { Books Listing }
+
     
 
     if page > 1 
-      a(href="/?page="+(page -1)) Previous Page
+      a.previous-link(href="/?page="+(page -1)) Previous Page
     if books.length >= 10
-      a(href="/?page="+(page +1)) Next Page
+      a.next-link(href="/?page="+(page +1)) Next Page
 
     br
 
 
-    table
-      thead
-        th 
-        th title
-        th author
-        th genre
-      tbody
-        for book in books
-          tr
-            td
-              img.list-img(src=book.imgurl)
-            td
-              a(href="/books/"+book.id)=book.title
-            td
-              for author in book.authors
-                p=author.name
-            td
-              for genre in book.genres
-                p= genre.genre
+    for book in books
+      table.listing
+        thead.listing
+          th 
+          th 
+        tbody
+            tr
+              td.listing
+                img.list-img(src=(book.imgurl || 'https://d30y9cdsu7xlg0.cloudfront.net/png/5020-200.png'))
+              td.listing
+                p.info Book Info
+                a.listing-link(href="/books/"+book.id)=book.title
+                p.info Authors
+                for author in book.authors
+                  p=author.name
+                if book.genres.length > 1 
+                  p.info Genres
+                  for genre in book.genres
+                    p= genre.genre
 
     if page > 1 
-      a(href="/?page="+(page -1)) Previous Page
+      a.previous-link(href="/?page="+(page -1)) Previous Page
     if books.length >= 10
-      a(href="/?page="+(page +1)) Next Page
+      a.next-link(href="/?page="+(page +1)) Next Page
+
+  include footer

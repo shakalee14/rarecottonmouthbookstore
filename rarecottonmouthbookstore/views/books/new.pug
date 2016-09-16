@@ -1,18 +1,19 @@
 extends ../layout 
 block content
-  h1 Enter New Book
-  if signedIn
-    form(method="post" action="/books")
-      input(type="text" name="title" placeholder="Title")
-      input(type="text" name="authors" placeholder="Author")
-      input(type="text" name="authors" placeholder="Author")
-      input(type="text" name="authors" placeholder="Author")
-      select(name="genres" multiple)
-        for genre in genres
-          option(value=genre.id)= genre.genre
-      input(type="text" name="imgurl" placeholder="Cover Url")  
-      input(type="submit" value="Create Book")
-  else
-    h3 Please Log In or Sign Up to add a book
-      a(href="/signin") Sign In
-      a(href="/signup") Sign Up
+  .container
+    h1 Enter New Book
+    if signedIn
+      form(method="post" action="/books")
+        input(type="text" name="title" placeholder="Title")
+        input(type="text" name="authors" placeholder="Author")
+        input(type="text" name="authors" placeholder="Author")
+        input(type="text" name="authors" placeholder="Author")
+        select(name="genres" multiple)
+          for genre in genres
+            option(value=genre.id)= genre.genre
+        input(type="text" name="imgurl" placeholder="Cover Url")  
+        input(type="submit" value="Create Book")
+    else
+      h3 Please Log In or Sign Up to add a book
+        a(href="/signin") Sign In
+        a(href="/signup") Sign Up

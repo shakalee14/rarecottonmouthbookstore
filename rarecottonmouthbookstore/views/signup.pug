@@ -1,9 +1,10 @@
 extends layout 
 block content
-  h1 Sign Up
+  .container
+    h1 Sign Up
 
-  form(method="post" action="/signup")
-    input(type="text" name="name" placeholder="Name")
-    input(type="text" name="email" placeholder="Email") 
-    input(type="password" name="password" placeholder="Password")
-    input(type="submit" value="signup")
+    form(method="post" action="/signup")
+      input(type="text" name="name" placeholder="Name")
+      input(type="text" name="email" placeholder="Email") 
+      input(type="password" name="password" placeholder="Password")
+      input(type="submit" value="signup")
