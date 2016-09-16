@@ -1,14 +1,6 @@
-
 body {
   font: "Lato", Helvetica, Arial, sans-serif;
   margin: 0;
-}
-
-div.centered-line {
-  width: 100%;
-  height: 2px;
-  background-color: black;
-
 }
 
 p.username {
@@ -19,12 +11,26 @@ p.username {
   margin: 10px;
 }
 
+.lato {
+  font-family: "Lato"; 
+}
+
 /*change this later*/ 
 
+/*Book Show Page*/
 
-li.authors {
+.authors-show {
   list-style-type: none; 
+}
 
+.genres-show {
+  list-style-type: none;
+  text-transform: capitalize;
+}
+
+.showbook {
+  text-align: center;
+  font-family: "Lato";
 }
 
 /* navbar and footer*/
@@ -37,7 +43,22 @@ nav.navbar {
   width: 100%;
   margin: 0;
   font-family: "Lato";
+}
 
+nav.navbar.footer {
+  position: static;
+  display: flex;
+  flex-direction: row;  
+  background-color: #6551BC; 
+  width: 100%;
+  padding-top: 15px;
+  font-family: "Lato";
+}
+
+.center-footer-text {
+  position: absolute;
+  right: 24px;
+  color: white;
 }
 
 li.navbar-item {
@@ -47,6 +68,25 @@ li.navbar-item {
   padding: 5px;
   margin-right: 15px;
   margin-left: 15px;
+  float: left;
+}
+
+li.navbar-logo {
+  list-style-type: none;
+  display: inline-flex;
+  flex-direction: row;
+  padding: 5px;
+  margin-right: 15px;
+}
+
+/*still working on this query to make navbar responsive*/
+
+@media screen and (max-width:680px) {
+  ul li.navbar-item, li.navbar-search {display: none;}
+  ul.topnav li.icon {
+    float: left;
+    display: inline;
+  }
 }
 
 
@@ -75,6 +115,43 @@ input.search {
   margin-left: 5px;
 }
 
+.searchquery{
+  margin: 15px;
+  width: 250px;
+}
+
+.searchquery:focus{
+  height: 40px;
+  margin-top: 20px;
+  box-sizing: border-box;
+  border: 3px solid #555;  
+}
+
+.button-searchquery {
+  width: 100px;  
+}
+
+.button-searchquery:hover {
+  width: 120px;
+  background-color: #8FA880;
+  border-radius: 4px;
+}
+
+.search-selector {
+  padding: 3px;
+}
+
+.search-selector:hover {
+  color: blue;
+}
+
+.genres {
+  margin-left: 10px;
+  width: 100px;
+  height: 80px;
+  border-radius: 2px;
+}
+
 input.button {
   width: auto;
   margin-left:5px;
@@ -86,7 +163,10 @@ a.navbar-link {
 }
 
 .clear-fix {
-  padding-top: 25px;
+  margin-top: 500px;
+  width: 100%;
+  position: relative;
+  bottom: 0;
 }
 
 /*booklisting*/ 
@@ -118,8 +198,6 @@ table.listing:nth-child(even) {
   margin-top:15px;
   background-color: #6FE8CE;
 } 
-
-
 
 img.list-img {
   height: 200px;
@@ -156,8 +234,14 @@ a.listing-link:hover {
   background-color: #F5BE91;
 }
 
-h2.listing, h1 {
+h2.listing, h1.listing {
   font-family: "Lato";
+  word-spacing: 2px;
+  letter-spacing: .5px;
+  position: relative;
+  background-color: white;
+  z-index: 1;
+  width: 500px;
 }
 
 a.next-link {
@@ -165,7 +249,6 @@ a.next-link {
   text-decoration: none;
   position: absolute;
   right: 20px;
-
 }
 
 a.previous-link {
@@ -173,5 +256,252 @@ a.previous-link {
   text-decoration: none;
 
 }
+
+/* forms */ 
+
+img.signin {
+  width: 200px;
+  height: 200px;
+  margin-top: 20px;
+
+}
+
+.button-signin, .button-signup {
+  width: 150px;
+  margin: 20px;
+}
+
+.button-signin:hover, .button-signup:hover {
+  width: 200px;
+  background-color: #49c4a1;
+}
+
+form.signin input.signin {
+  width: 50%;
+  height: 40px;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+form.signin input.signin:focus {
+  width: 50%;
+  height: 40px;
+  margin-top: 20px;
+  box-sizing: border-box;
+  border: 3px solid #555;
+}
+
+
+form.signin input.button {
+  width: auto;
+  margin: 20px;
+
+}
+
+/*signup*/
+
+.container.signup, .container.signin {
+   margin: 10px;
+   background-image: url('http://img.wallpaperfolder.com/f/5DC62C4BB389/wrinkled-paper-wide.jpg');
+   text-align: center;
+   font-family: "Lato";
+   font-size: 30px;
+   border-style: solid;
+   color: #49c4a1;
+   opacity: .9;
+   border-color: white;
+   box-shadow: black 1px 1px 1px 1px;
+}
+
+.container.codex-info {
+  height: 100px;
+  width: 100%;
+  border-top: black;
+
+}
+
+img.signup, img.signin {
+  width: 33%;
+  height: auto;
+  margin-top: 20px;
+}
+
+form.signup input.signup {
+  width: 50%;
+  height: 40px;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+form.signup input.signup:focus {
+  width: 50%;
+  height: 40px;
+  margin-top: 20px;
+  box-sizing: border-box;
+  border: 3px solid #555;
+}
+
+
+form.signup input.button {
+  width: auto;
+  margin: 20px;
+}
+/*New Book Form*/
+
+h1.book, h3.book, form.book {
+  font-family: "Lato";
+}
+
+form.book > input.button {
+  width: 150px;
+  height: 40px;
+}
+
+form.book > input.button:hover {
+  width: 200px;
+  background-color: #8FA880;
+  border-radius: 4px;  
+}
+
+.container.book {
+  text-align: center;
+}
+
+input.book {
+  margin: 40px;
+  width: 50%;
+  height: 50px;
+  padding: 10px;
+}
+
+.new-book-genres {
+  display: flex;
+  justify-content: center;
+}
+
+.genre-label {
+  margin-right: 4px;
+}
+
+.genre-selector {
+  width: 170px;
+  height: 85px;
+  border: #f0f0f0 1px solid;
+  padding: 3px;
+  border-radius: 4px;
+}
+.genre-selector > option:hover {
+  color:#0f0fff;
+}
+
+/*Edit Book Form*/
+
+h1.editbook {
+  font-family: "Lato";
+  text-align: center;
+}
+
+.editform {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit {
+  padding: 5px;
+  margin: 4px;
+}
+
+.edit-submit {
+  padding: 5px;
+  margin: 4px;
+}
+
+.edit-submit:hover {
+  height: 40px;
+  background-color: #8FA880;
+  border-radius: 4px; 
+}
+
+.edit:focus {
+  height: 40px;
+  margin-top: 20px;
+  box-sizing: border-box;
+  border: 3px solid #555;
+}
+
+.edit-options:hover {
+  background-color: #49c4a1;
+}
+
+.edit-genre {
+  padding: 5px;
+  margin: 4px;
+  border-radius: 2px;
+}
+
+
+/* logo */
+
+.container.logo {
+  font-family: "Lato";
+  font-size: 40px;
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;
+  border-bottom: 3px solid #49c4a1;
+}
+
+.container.codex-info {
+  font-family: "Lato";
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;
+  border-top: 3px solid #49c4a1;
+  padding: 10px;
+}
+
+thead.codex {
+  font-size: 24px;
+  width: 100%;
+}
+
+th.codex {
+  width: 33%;
+  padding-top: 200px;
+  text-align: center;
+}
+
+img.codex {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+}
+
+p.codex {
+  size: 12px;
+}
+
+@media screen and (max-width:680px) {
+    .container.codex-info {display: none;}
+     {
+    float: left;
+    display: inline;
+  }
+}
+
+p.logo {
+  font-family: "Pacifico";
+  font-size: 30px;
+  text-align: center; 
+}
+
+.container2 {
+  padding-bottom: 14px;
+  padding-top: 14px;
+  size: 20px;
+}
+
+
 
 

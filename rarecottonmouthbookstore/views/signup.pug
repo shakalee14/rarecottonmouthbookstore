@@ -1,10 +1,21 @@
 extends layout 
 block content
-  .container
-    h1 Sign Up
+  .container.logo
+    h1.logo Codex 
+  .container2
+    p.logo Just Books...
+  .container.signup
+    h1.signup Sign Up
+    img.signin(src='http://www.twyva.org.tw/images/others/IconStory.png')
+    form.signup(method="post" action="/signup")
+      input.signup(type="text" name="name" placeholder="Name")
+      br
+      input.signup(type="text" name="email" placeholder="Email") 
+      br
+      input.signup(type="password" name="password" placeholder="Password")
+      br
+      input.button-signup(type="submit" value="Sign Up")
 
-    form(method="post" action="/signup")
-      input(type="text" name="name" placeholder="Name")
-      input(type="text" name="email" placeholder="Email") 
-      input(type="password" name="password" placeholder="Password")
-      input(type="submit" value="signup")
+  include codexinfo
+  include footer
+

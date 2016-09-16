@@ -69,15 +69,17 @@ const createBook = ( attributes ) => {
 
 const createAuthors = (authors) => {
   const queries = authors.map(author => {
-    const sql = `
-      INSERT INTO authors
-        (name)
-      VALUES
-        ($1)
-      RETURNING 
-        *
-    `  
-    return db.one(sql, [author])
+    if (author !== '') {
+      const sql = `
+        INSERT INTO authors
+          (name)
+        VALUES
+          ($1)
+        RETURNING 
+          *
+      `  
+      return db.one(sql, [author])
+    }
   })
   return Promise.all(queries)
 }

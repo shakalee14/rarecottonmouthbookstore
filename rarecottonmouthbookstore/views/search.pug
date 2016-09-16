@@ -1,20 +1,23 @@
 extends layout 
 block content
-  .container
+  .container.lato
     h1 Search Results
 
-    form(method="get" action="/search")
-      label Search Books: 
-        input(type="text" placeholder="search..." name="search_query" value=searchOptions.search_query)
-        input(type="submit" value="Search")
-      select(name="genres" multiple)
+    h3 Search Books: 
+    form.search-form(method="get" action="/search")
+      label Pick Genres: 
+      select.genres(name="genres" multiple)
         for genre in genres
           - selected = searchOptions.genres.includes(genre.id.toString())
-          option(value=genre.id selected=selected)= genre.genre
+          option.search-selector(value=genre.id selected=selected)= genre.genre
+      input.searchquery(type="text" placeholder="Titles and Authors" name="search_query" value=searchOptions.search_query)
+      input.button-searchquery(type="submit" value="Search")
     if page > 1 
       a.previous-link(href="/search?search_query="+searchOptions.search_query+"&page="+(page -1)) Previous Page
     if books.length >= 20
       a.next-link(href="/search/?search_query="+searchOptions.search_query+"&page="+(page +1)) Next Page
+    
+    br
 
     for book in books
       table.listing
@@ -40,3 +43,5 @@ block content
       a.previous-link(href="/search?search_query="+searchOptions.search_query+"&page="+(page -1)) Previous Page
     if books.length >= 20
       a.next-link(href="/search/?search_query="+searchOptions.search_query+"&page="+(page +1)) Next Page
+
+  include footer

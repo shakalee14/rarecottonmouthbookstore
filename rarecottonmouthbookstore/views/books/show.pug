@@ -1,27 +1,28 @@
 extends ../layout 
 block content
   .container
+    .showbook
+      if !book.id
+        h1 Book Not Found
+      else  
+        h1= book.title
+        img(src=book.imgurl)
 
-    if !book.id
-      h1 Book Not Found
-    else  
-      h1= book.title
-      img(src=book.imgurl)
+        h4 Authors
+          ol
+            for author in book.authors
+              li.authors-show= author.name
 
-      h4 Authors
-        ol
-          for author in book.authors
-            li.authors= author.name
+        h4 Genres
+          ol
+            for genre in book.genres
+              li.genres-show= genre.genre
 
-      h4 Genres
-        ol
-          for genre in book.genres
-            li= genre.genre
-
-      if signedIn 
-        form(method="get" action="/books/delete/"+book.id)
-          input(type="submit" value="Delete Book")
-        form(method="get" action="/books/edit/"+book.id)
-          input(type="submit" value="Edit Book") 
-     
-    
+        if signedIn 
+          form(method="get" action="/books/delete/"+book.id)
+            input(type="submit" value="Delete Book")
+          form(method="get" action="/books/edit/"+book.id)
+            input(type="submit" value="Edit Book") 
+  include ../footer
+       
+      
