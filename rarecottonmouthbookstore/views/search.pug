@@ -2,7 +2,6 @@ extends layout
 block content
   .container.lato
     h1 Search Results
-
     h3 Search Books: 
     form.search-form(method="get" action="/search")
       label Pick Genres: 
@@ -16,9 +15,7 @@ block content
       a.previous-link(href="/search?search_query="+searchOptions.search_query+"&page="+(page -1)) Previous Page
     if books.length >= 20
       a.next-link(href="/search/?search_query="+searchOptions.search_query+"&page="+(page +1)) Next Page
-    
     br
-
     for book in books
       table.listing
         thead.listing
@@ -38,10 +35,8 @@ block content
                   p.info Genres
                   for genre in book.genres
                     p= genre.genre
-
     if page > 1 
       a.previous-link(href="/search?search_query="+searchOptions.search_query+"&page="+(page -1)) Previous Page
     if books.length >= 20
       a.next-link(href="/search/?search_query="+searchOptions.search_query+"&page="+(page +1)) Next Page
-
   include footer

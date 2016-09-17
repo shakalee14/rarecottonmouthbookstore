@@ -1,15 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const database = require('../database');
-
-
 
 router.get('/', (request, response, next) => {
   response.render('signup')
 })
 
 router.post('/', (request, response) => {
-  // response.json( request.body )
   database.createUser( request.body )
   .then( user => {
     request.session.userId = user.id;
@@ -17,7 +14,5 @@ router.post('/', (request, response) => {
   })
   .catch( error => response.render('error', {error: error}))
 })
-
-
 
 module.exports = router;

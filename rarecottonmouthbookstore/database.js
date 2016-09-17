@@ -4,7 +4,7 @@ const pgp = require('pg-promise')();
 const db = pgp(connectionString);
 const bcrypt = require('bcrypt-nodejs');
 
-const createUser = ( attributes ) => {
+const createUser = attributes => {
   const sql = `
     INSERT INTO users
       (name, email, encrypted_password)
@@ -22,7 +22,7 @@ const createUser = ( attributes ) => {
   return db.one(sql, variables)
 }
 
-const getUserById = (user) => {
+const getUserById = user => {
   const sql = `
     SELECT *
     FROM users 
@@ -41,7 +41,7 @@ const getUserByEmail = (email) => {
   return db.oneOrNone(sql, [email])
 }
 
-const createBook = ( attributes ) => {
+const createBook = attributes => {
   const sql = `
     INSERT INTO books
       (title, imgurl)
@@ -67,7 +67,7 @@ const createBook = ( attributes ) => {
   })
 }
 
-const createAuthors = (authors) => {
+const createAuthors = authors => {
   const queries = authors.map(author => {
     if (author !== '') {
       const sql = `
@@ -84,7 +84,7 @@ const createAuthors = (authors) => {
   return Promise.all(queries)
 }
 
-const createGenre = (input) => {
+const createGenre = input => {
   const sql = `
     INSERT INTO genres
       (genre)
@@ -95,7 +95,6 @@ const createGenre = (input) => {
   `
   return db.one(sql, [input.genre])
 }
-
 
 const associateAuthorsWithBook = (book, authors) => {
   const queries = authors.map(author => {
@@ -109,7 +108,6 @@ const associateAuthorsWithBook = (book, authors) => {
   })
   return Promise.all(queries)
 }
-
 
 const associateGenresWithBook = (book, genres) => {
   const queries = genres.map(genreId => {
@@ -146,7 +144,7 @@ const getGenresForBookIds = bookIds => {
   return db.any(sql, [bookIds])
 }
 
-const getAuthorsForBookIds = (bookIds) => {
+const getAuthorsForBookIds = bookIds => {
   const sql = `
     SELECT authors.*, book_authors.book_id
     FROM authors 
@@ -158,7 +156,7 @@ const getAuthorsForBookIds = (bookIds) => {
   return db.any(sql, [bookIds])
 }
 
-const getAuthorsandGenresForBooks = (books) => {
+const getAuthorsandGenresForBooks = books => {
   const bookIds = books.map(book => book.id)
   if (bookIds.length === 0) return Promise.resolve(books)
   return Promise.all([
@@ -176,7 +174,7 @@ const getAuthorsandGenresForBooks = (books) => {
    })
 }
 
-const getBookDetailsById = (bookId) => {
+const getBookDetailsById = bookId => {
   const sql = `
     SELECT
       *
@@ -203,7 +201,7 @@ const getBookDetailsById = (bookId) => {
     })
 }
 
-const deleteBook = (bookId) => {
+const deleteBook = bookId => {
   const sql = `
     DELETE FROM books 
     WHERE id = $1
@@ -254,17 +252,8 @@ const searchBooksByTitleAuthorOrGenre = (options, page=1) => {
   sql += `
     LIMIT 20 OFFSET $${variables.length}
   `
-  console.log('---->', sql, variables)
   return db.any(sql, variables).then(getAuthorsandGenresForBooks)
 }
-
-// const replaceBookAuthorsById = (bookId, authorIds) => {
-//   db.none(`DELETE FROM book_authors WHERE book_id=$1`, [bookId])
-//     .then(()=> {
-//       console.log('authorIds', authorIds)
-//       return associateAuthorsWithBook(bookId, authorIds)
-//     })
-// }
 
 const replaceBookAuthorsById = (bookId, authorIds) => {
   db.none(`DELETE FROM book_authors WHERE book_id=$1`, [bookId])
@@ -281,14 +270,6 @@ const replaceBookAuthorsById = (bookId, authorIds) => {
       return Promise.all(queries)
     })
 }
-
-// const replaceBookGenresById = (bookId, genreIds)  => {
-//   db.none(`DELETE FROM book_genres WHERE book_id=$1`, [bookId])
-//     .then(()=> {
-//       console.log('genreIds', genreIds)
-//       return associateGenresWithBook(bookId, genreIds)
-//     })
-// }
 
 const replaceBookGenresById = (bookId, genreIds)  => {
   db.none(`DELETE FROM book_genres WHERE book_id=$1`, [bookId])
@@ -322,7 +303,6 @@ const associateAuthorsWithBookTwo = (bookId, authors) => {
     })  
 }
 
-
 const associateGenresWithBookTwo = (bookId, genres) => {
   db.none(`DELETE FROM book_genres WHERE book_id=$1`, [bookId])
     .then(() => {
@@ -339,18 +319,13 @@ const associateGenresWithBookTwo = (bookId, genres) => {
     })
 }
 
-
-
 const updateBookById = (bookId, attributes) => {
   const sql = `
     UPDATE books
     SET title = $1, imgurl = $2
     WHERE id = $3
   `
-  console.log('WHERE---->', sql, [attributes.title, attributes.imgurl, bookId]) 
   const updateBookQuery = db.none(sql, [attributes.title, attributes.imgurl, bookId])
-  console.log('genres:', attributes.genres)
-  console.log('authors', attributes.authors)
 
   return Promise.all([
       updateBookQuery,
@@ -362,8 +337,6 @@ const updateBookById = (bookId, attributes) => {
         associateGenresWithBookTwo(bookId, attributes.genres),
         associateAuthorsWithBookTwo(bookId, authors)
       ]
-    console.log('authorsS', authors)
-    console.log('QUERIES', queries)
     return Promise.all(queries).then(() => book)
   })
 }

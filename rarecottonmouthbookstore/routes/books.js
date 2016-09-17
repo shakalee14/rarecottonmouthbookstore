@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const database = require('../database')
 
 router.get('/', (request, response, next) => {
@@ -77,20 +77,8 @@ router.post('/', (request, response, next) => {
 
 })
 
-// router.post('/:id', (request, response, next) => {
-//   const book = Object.assign({id: request.params.id}, request.body)
-//   console.log(book)
-//   database.updateBookById(book)
-//     .then(id => response.redirect(`/books/${book.id}`))
-//     .catch(error => {
-//       response.render('error', {error: error})
-//     })
-// })
-
 router.post('/:id', (request, response, next) => {
   const bookId = Object.assign(parseInt(request.params.id))
-  console.log("request", request.body)
-  console.log("bookiDrOUTE", bookId)
   database.updateBookById(bookId, request.body)
     .then(id => response.redirect(`/books/${bookId}`))
     .catch(error => {

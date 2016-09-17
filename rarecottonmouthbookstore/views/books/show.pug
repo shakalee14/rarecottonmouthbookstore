@@ -6,23 +6,21 @@ block content
         h1 Book Not Found
       else  
         h1= book.title
-        img(src=book.imgurl)
-
+        img(src=(book.imgurl || 'https://d30y9cdsu7xlg0.cloudfront.net/png/5020-200.png'))
         h4 Authors
           ol
             for author in book.authors
               li.authors-show= author.name
-
         h4 Genres
           ol
             for genre in book.genres
               li.genres-show= genre.genre
-
         if signedIn 
           form(method="get" action="/books/delete/"+book.id)
-            input(type="submit" value="Delete Book")
+            input.details-button(type="submit" value="Delete Book")
+          br
           form(method="get" action="/books/edit/"+book.id)
-            input(type="submit" value="Edit Book") 
+            input.details-button(type="submit" value="Edit Book") 
   include ../footer
        
       

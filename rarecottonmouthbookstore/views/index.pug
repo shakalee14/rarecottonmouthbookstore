@@ -8,15 +8,11 @@ block content
       else
         p Welcome to #{title}
     h2.listing { Books Listing }
-
     if page > 1 
       a.previous-link(href="/?page="+(page -1)) Previous Page
     if books.length >= 10
       a.next-link(href="/?page="+(page +1)) Next Page
-
     br
-
-
     for book in books
       table.listing
         thead.listing
@@ -36,10 +32,8 @@ block content
                   p.info Genres
                   for genre in book.genres
                     p= genre.genre
-
     if page > 1 
       a.previous-link(href="/?page="+(page -1)) Previous Page
     if books.length >= 10
       a.next-link(href="/?page="+(page +1)) Next Page
-
   include footer

@@ -1,7 +1,6 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const database = require('../database');
-
 
 router.get('/', (request, response, next) => {
   response.render('signin')
@@ -28,9 +27,5 @@ router.post('/', (request, response) => {
       })
     })
 })
-
-
-
-
 
 module.exports = router;

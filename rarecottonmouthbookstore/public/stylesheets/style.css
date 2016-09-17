@@ -15,8 +15,6 @@ p.username {
   font-family: "Lato"; 
 }
 
-/*change this later*/ 
-
 /*Book Show Page*/
 
 .authors-show {
@@ -31,6 +29,18 @@ p.username {
 .showbook {
   text-align: center;
   font-family: "Lato";
+}
+
+.details-button {
+  width: 180px;
+  height: 25px;  
+}
+
+.details-button:hover {
+  width: 250px;
+  height: 40px;
+  background-color: #8FA880;
+  border-radius: 4px;
 }
 
 /* navbar and footer*/
@@ -89,7 +99,6 @@ li.navbar-logo {
   }
 }
 
-
 li.navbar-item:hover {
   background-color: #FF755B;
 }
@@ -115,7 +124,7 @@ input.search {
   margin-left: 5px;
 }
 
-.searchquery{
+.searchquery {
   margin: 15px;
   width: 250px;
 }
@@ -170,11 +179,11 @@ a.navbar-link {
 }
 
 /*booklisting*/ 
+
 table.listing {
   text-align: left;
   height: 300px;
   width: 100%;
- /* outline: 2px solid black;*/
   margin-bottom:15px;
   margin-top:15px;
 } 
@@ -183,7 +192,6 @@ table.listing:nth-child(odd) {
   text-align: left;
   height: 300px;
   width: 100%;
-  /*outline: 2px solid black;*/
   margin-bottom:15px;
   margin-top:15px;
   background-color: #EDFF6D;
@@ -193,7 +201,6 @@ table.listing:nth-child(even) {
   text-align: left;
   height: 300px;
   width: 100%;
- /* outline: 2px solid black;*/
   margin-bottom:15px;
   margin-top:15px;
   background-color: #6FE8CE;
@@ -244,6 +251,8 @@ h2.listing, h1.listing {
   width: 500px;
 }
 
+/*Next and Previous Buttons*/
+
 a.next-link {
   font-family: "Lato";
   text-decoration: none;
@@ -254,16 +263,32 @@ a.next-link {
 a.previous-link {
   font-family: "Lato";
   text-decoration: none;
-
 }
 
 /* forms */ 
+
+.container.signup, .container.signin {
+   margin: 10px;
+   background-image: url('http://img.wallpaperfolder.com/f/5DC62C4BB389/wrinkled-paper-wide.jpg');
+   text-align: center;
+   font-family: "Lato";
+   font-size: 30px;
+   border-style: solid;
+   color: #49c4a1;
+   opacity: .9;
+   border-color: white;
+   box-shadow: black 1px 1px 1px 1px;
+}
+
+h1.signin, h1.signup {
+  text-shadow: -1px -1px #444;
+  /*text-shadow: 2px 2px #ff0000;*/
+}
 
 img.signin {
   width: 200px;
   height: 200px;
   margin-top: 20px;
-
 }
 
 .button-signin, .button-signup {
@@ -295,22 +320,6 @@ form.signin input.signin:focus {
 form.signin input.button {
   width: auto;
   margin: 20px;
-
-}
-
-/*signup*/
-
-.container.signup, .container.signin {
-   margin: 10px;
-   background-image: url('http://img.wallpaperfolder.com/f/5DC62C4BB389/wrinkled-paper-wide.jpg');
-   text-align: center;
-   font-family: "Lato";
-   font-size: 30px;
-   border-style: solid;
-   color: #49c4a1;
-   opacity: .9;
-   border-color: white;
-   box-shadow: black 1px 1px 1px 1px;
 }
 
 .container.codex-info {
@@ -341,11 +350,11 @@ form.signup input.signup:focus {
   border: 3px solid #555;
 }
 
-
 form.signup input.button {
   width: auto;
   margin: 20px;
 }
+
 /*New Book Form*/
 
 h1.book, h3.book, form.book {
@@ -390,6 +399,7 @@ input.book {
   padding: 3px;
   border-radius: 4px;
 }
+
 .genre-selector > option:hover {
   color:#0f0fff;
 }
@@ -407,12 +417,7 @@ h1.editbook {
   flex-direction: column;
 }
 
-.edit {
-  padding: 5px;
-  margin: 4px;
-}
-
-.edit-submit {
+.edit, .edit-submit {
   padding: 5px;
   margin: 4px;
 }
@@ -439,7 +444,6 @@ h1.editbook {
   margin: 4px;
   border-radius: 2px;
 }
-
 
 /* logo */
 
@@ -483,11 +487,10 @@ p.codex {
 }
 
 @media screen and (max-width:680px) {
-    .container.codex-info {display: none;}
-     {
-    float: left;
-    display: inline;
-  }
+    .container.codex-info {display: none;} {
+      float: left;
+      display: inline;
+    }
 }
 
 p.logo {
